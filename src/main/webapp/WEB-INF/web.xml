@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+
+    <!-- JNDI DataSource -->
+    <resource-ref>
+        <description>Base de datos eWAF</description>
+        <res-ref-name>jdbc/PostDB</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+
+    <listener>
+        <listener-class>com.ewaf.AppLifecycleListener</listener-class>
+    </listener>
+
+
+    <!-- Inicio Filtros y su orden -->
+
+
+    <filter>
+        <filter-name>SecurityHeadersFilter</filter-name>
+        <filter-class>com.ewaf.SecurityHeadersFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>BlockedIPFilter</filter-name>
+        <filter-class>com.ewaf.BlockedIPFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>RateLimitingFilter</filter-name>
+        <filter-class>com.ewaf.RateLimitingFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>MaintenanceFilter</filter-name>
+        <filter-class>com.ewaf.MaintenanceFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>UserStatusFilter</filter-name>
+        <filter-class>com.ewaf.UserStatusFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>SimpleWaffFilter</filter-name>
+        <filter-class>com.ewaf.SimpleWaffFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>IPLoggingFilter</filter-name>
+        <filter-class>com.ewaf.IPLoggingFilter</filter-class>
+    </filter>
+
+
+    <filter-mapping>
+        <filter-name>SecurityHeadersFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>BlockedIPFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>RateLimitingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>MaintenanceFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>UserStatusFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>SimpleWaffFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>IPLoggingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Fin Filtros y su orden -->
+
+    <!-- PROXY (Ruta Oculta para el GlobalRouterFilter) -->
+
+    <servlet>
+        <servlet-name>ProxyServlet</servlet-name>
+        <servlet-class>com.ewaf.ProxyServlet</servlet-class>
+        <async-supported>true</async-supported>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ProxyServlet</servlet-name>
+        <url-pattern>/internal-proxy/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- PROXY FIN -->
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/fugitive-recovery</location>
+    </error-page>
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/jsp/errors/403.jsp</location> </error-page>
+
+    <error-page>
+        <error-code>429</error-code>
+        <location>/WEB-INF/jsp/errors/429.jsp</location> </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/jsp/errors/500.jsp</location> </error-page>
+
+
+    <error-page>
+        <error-code>401</error-code>
+        <location>/WEB-INF/jsp/errors/401.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>400</error-code>
+        <location>/WEB-INF/jsp/errors/400.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>414</error-code>
+        <location>/WEB-INF/jsp/errors/414.jsp</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/WEB-INF/jsp/errors/generic.jsp</location>
+    </error-page>
+
+
+</web-app>

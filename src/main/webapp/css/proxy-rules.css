@@ -1,0 +1,95 @@
+.main-container {
+    padding-top: 6rem;
+    padding-bottom: 3rem;
+    max-width: 1100px;
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   CARDS & TABLES
+   ========================================================================== */
+.card {
+    border: none;
+    border-radius: var(--border-radius) !important;
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+}
+
+[data-bs-theme="dark"] .card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
+}
+
+/* Tabla transparente para integrarse con la card */
+.table {
+    margin-bottom: 0;
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--text-color);
+    --bs-table-border-color: var(--border-color);
+}
+
+.table th {
+    background-color: var(--bg-hover);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    border-bottom-width: 1px;
+    color: var(--secondary-text-color);
+}
+
+/* ==========================================================================
+   BADGES & ESTILOS ESPECÍFICOS
+   ========================================================================== */
+/* Badge de la ruta (Path) */
+.badge-path {
+    font-family: var(--bs-font-monospace);
+    font-size: 0.9rem;
+    background-color: rgba(214, 51, 132, 0.1);
+    color: #d63384;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(214, 51, 132, 0.2);
+}
+
+[data-bs-theme="dark"] .badge-path {
+    background-color: rgba(214, 51, 132, 0.2);
+    color: #ff8dc7;
+    border: 1px solid rgba(214, 51, 132, 0.4);
+}
+
+/* Indicador de Estado */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+}
+.status-active { background-color: #198754; box-shadow: 0 0 6px rgba(25, 135, 84, 0.6); }
+.status-inactive { background-color: #6c757d; }
+
+/*Modal*/
+[data-bs-theme="dark"] .modal-content {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+}
+[data-bs-theme="dark"] .modal-header,
+[data-bs-theme="dark"] .modal-footer {
+    border-color: var(--border-color);
+}
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .input-group-text {
+    background-color: #2c2c2c;
+    border-color: #444;
+    color: #e0e0e0;
+}

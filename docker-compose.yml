@@ -1,0 +1,103 @@
+version: '3.8'
+
+# Creamos una red privada para asegurar la comunicacion interna entre las capas
+networks:
+  ewaf_network:
+    driver: bridge
+
+# Agregamos el volumen para la persistencia de la base de datos
+volumes:
+  mysql_data:
+
+services:
+  # =========================================================================
+  # CAPA 0: Base de Datos MySQL
+  # =========================================================================
+  db:
+    image: mysql:8.0
+    container_name: ewaf_mysql
+    ports:
+      - "3307:3306"
+    environment:
+      # Credenciales DB
+      MYSQL_ROOT_PASSWORD: ewaf_password
+      MYSQL_DATABASE: ewaf
+    volumes:
+      # Persistencia de datos
+      - mysql_data:/var/lib/mysql
+      # Inicializacion automatica: Docker ejecutara el archivo SQL la primera vez que se cree
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - ewaf_network
+    restart: unless-stopped
+
+  # =========================================================================
+  # CAPA 1: Servidor NGINX (Proxy Inverso, Cache y WAF ModSecurity)
+  # =========================================================================
+  nginx:
+    image: owasp/modsecurity-crs:nginx
+    container_name: ewaf_nginx
+    ports:
+      # Docker mapea el puerto 80 real hacia el puerto 8080 interno de nuestro ewaf.conf
+      - "80:8080" 
+    environment:
+      # Movemos el servidor por defecto de OWASP al puerto 8081
+      # para que no colisione con nuestra configuracion y nos deje el 8080 libre.
+      - PORT=8081
+      - MODSEC_RULE_ENGINE=DetectionOnly
+    volumes:
+      # Inyectamos nuestra configuracion directamente como ewaf.conf
+      # Asi evitamos que los scripts automaticos de OWASP la sobrescriban o ignoren.
+      - ./nginx-config/default.conf:/etc/nginx/conf.d/ewaf.conf
+      - ./nginx-config/modsecurity.conf:/etc/modsecurity.d/modsecurity-custom.conf
+      - ./nginx-config/main.conf:/etc/nginx/modsec-custom/main.conf
+    networks:
+      - ewaf_network
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  # =========================================================================
+  # CAPA 3: Motor Spring Cloud Gateway (Enrutamiento Dinamico)
+  # =========================================================================
+  spring-gateway:
+    build: ./spring-gateway  # Docker buscara una carpeta con este nombre para compilar el codigo
+    container_name: ewaf_spring_gw
+    ports:
+      - "8082:8082"          # Exponemos el puerto 8082 para que NGINX lo vea
+    networks:
+      - ewaf_network
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  # =========================================================================
+  # CAPA 2: Servidor Tomcat (SOLO PARA PRODUCCION EN LINUX)
+  # =========================================================================
+  tomcat:
+    image: tomcat:10.1-jdk17
+    container_name: ewaf_core
+    # PERFIL DE PRODUCCION: Este contenedor NO se encendera por defecto en Windows.
+    # Solo se encendera cuando en Linux ejecutes explicitamente: docker compose --profile prod up -d
+    profiles:
+      - prod
+    ports:
+      - "8080:8080" # Exponemos Tomcat solo si quieres acceder directo sin pasar por NGINX
+    environment:
+      # Le pasamos el nombre del contenedor de BD para que Tomcat 10 lo lea y reemplace en context.xml
+      - DB_HOST=db
+      - DB_PORT=3306
+    volumes:
+      # Inyectamos la aplicacion compilada (.war) en la raiz de Tomcat
+      # Reemplazar el .war por el nombre exacto que genere Maven
+      - ./target/eWAF.war:/usr/local/tomcat/webapps/ROOT.war
+    networks:
+      ewaf_network:
+        # Le ponemos el alias "host.docker.internal" a este contenedor.
+        # En Linux (Prod), Docker interceptara este nombre y mandara el trafico aqui.
+        # Resultado: default.conf funciona en ambos lugares sin modificarse NUNCA.
+        aliases:
+          - host.docker.internal
+    depends_on:
+      - db
+    restart: unless-stopped
