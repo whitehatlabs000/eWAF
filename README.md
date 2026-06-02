@@ -57,7 +57,7 @@ In this mode, Docker runs the infrastructure (MySQL, NGINX, Spring Gateway), but
 ```bash
 docker compose up -d --build
 ```
-*Run your Tomcat server from your IDE on port `8080`. It will automatically connect to the containerized MySQL on port `3307`.*
+*Run your Tomcat server from your IDE on port `8080`. It will automatically connect to the containerized MySQL on port `3308`.*
 
 #### Option B: Production Deployment (Linux / Server)
 In this mode, the entire ecosystem (including the Java Core) runs containerized within the isolated Docker network.
@@ -67,7 +67,7 @@ docker compose --profile prod up -d --build
 ```
 
 ### Step 3: Access the Dashboard
-Once deployed, navigate to `http://localhost/login`. 
+Once deployed, navigate to `http://localhost:8081/login`. 
 The database is auto-provisioned with the following default credentials:
 * **Username:** `admin`
 * **Password:** `admin`

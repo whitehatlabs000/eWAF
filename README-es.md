@@ -55,7 +55,7 @@ En este modo, Docker ejecuta la infraestructura (MySQL, NGINX, Spring Gateway), 
 ```bash
 docker compose up -d --build
 ```
-*Ejecuta tu servidor Tomcat desde tu IDE en el puerto `8080`. Se conectará automáticamente al MySQL contenerizado a través del puerto `3307`.*
+*Ejecuta tu servidor Tomcat desde tu IDE en el puerto `8080`. Se conectará automáticamente al MySQL contenerizado a través del puerto `3308`.*
 
 #### Opción B: Despliegue en Producción (Linux / Servidor)
 En este modo, el ecosistema completo (incluyendo el Núcleo Java) se ejecuta contenerizado dentro de la red aislada de Docker.
@@ -64,7 +64,7 @@ docker compose --profile prod up -d --build
 ```
 
 ### Paso 3: Acceder al Panel
-Una vez desplegado, navega a `http://localhost/login`. 
+Una vez desplegado, navega a `http://localhost:8081/login`. 
 La base de datos se autoconfigura con las siguientes credenciales por defecto:
 * **Usuario:** `admin`
 * **Contraseña:** `admin`
