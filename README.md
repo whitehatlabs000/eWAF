@@ -4,7 +4,7 @@
   <p><strong>Smart Hybrid Routing & Enterprise Grade Security</strong></p>
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-  [![Java: 17](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
+[![Java: 24](https://img.shields.io/badge/Java-24-orange.svg)](https://www.oracle.com/java/)
   [![Docker: Ready](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker&logoColor=white)](https://www.docker.com/)
   [![ModSecurity: v3](https://img.shields.io/badge/ModSecurity-v3-red.svg)](https://github.com/SpiderLabs/ModSecurity)
 </div>
@@ -36,7 +36,7 @@ eWAF acts as an orchestrator, distributing the workload optimally:
 
 ### Prerequisites
 * [Docker & Docker Compose](https://docs.docker.com/get-docker/)
-* Java 17 & Maven (To build the core application)
+* Java 24 & Maven (To build the core application)
 
 ### Step 1: Build the Core
 Before spinning up the containers, package the Java application. This will generate the `target/eWAF.war` file required by Tomcat.
