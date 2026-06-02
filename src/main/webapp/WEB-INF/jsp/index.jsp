@@ -77,9 +77,10 @@
             <div class="terminal-body p-4 font-monospace">
                 <span class="text-success">$</span> git clone https://github.com/whitehatlabs000/eWAF.git<br>
                 <span class="text-success">$</span> cd eWAF<br>
+                <span class="text-success">$</span> sudo apt install openjdk-17-jdk -y<br>
+                <span class="text-success">$</span> ./mvnw clean install<br>
                 <span class="text-success">$</span> docker compose --profile prod up -d --build<br>
-                <span class="text-info">> Deploying Smart Hybrid Control Plane... Done.</span><br>
-                <span class="text-info">> NGINX + ModSecurity CRS Bridge active on port 8080.</span>
+                <span class="text-info">> Deploying Smart Hybrid Control Plane... Done.</span>
             </div>
         </div>
     </div>
@@ -150,6 +151,10 @@
                             <button class="btn-copy"><i class="bi bi-clipboard"></i></button>
                             <pre><code class="language-bash">git clone https://github.com/whitehatlabs000/eWAF.git
 cd eWAF
+sudo apt update
+sudo apt install openjdk-17-jdk -y
+chmod +x mvnw
+./mvnw clean install
 docker compose --profile prod up -d --build</code></pre>
                         </div>
                         <p class="text-secondary" data-i18n="doc_inst_p2">Once running, access the Admin Dashboard at <code>http://localhost/login</code>.</p>

@@ -5,8 +5,8 @@
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Java: 17](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
-  [![Docker: Ready](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker&logoColor=white)](https://www.docker.com/)
-  [![ModSecurity: v3](https://img.shields.io/badge/ModSecurity-v3-red.svg)](https://github.com/SpiderLabs/ModSecurity)
+[![Docker: Ready](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker&logoColor=white)](https://www.docker.com/)
+[![ModSecurity: v3](https://img.shields.io/badge/ModSecurity-v3-red.svg)](https://github.com/SpiderLabs/ModSecurity)
 </div>
 
 ---
@@ -18,17 +18,17 @@
 ## ✨ Core Features
 
 * **🛡️ Smart Delegation:** Heavy static assets (images, videos) are automatically offloaded to NGINX via `X-Accel-Redirect`. Zero Java heap exhaustion.
-  * **🚦 ModSecurity CRS Integration:** Toggle the OWASP Core Rule Set on a per-route basis directly from the UI. Malicious traffic is isolated in a dedicated C++ engine before it hits your internal apps.
-  * **🔄 On-The-Fly Rewriting:** The Java Native engine dynamically parses and manipulates JSON payloads and HTML anchors to fix broken backend paths seamlessly.
-  * **⚡ Multi-Engine Routing:** Route your traffic through NATIVE (Tomcat), NGINX, or SPRING (Cloud Gateway) engines depending on the endpoint needs.
-  * **📦 Zero-Config Database:** MySQL is fully containerized. The schema and default administrator are auto-provisioned on the first boot.
+* **🚦 ModSecurity CRS Integration:** Toggle the OWASP Core Rule Set on a per-route basis directly from the UI. Malicious traffic is isolated in a dedicated C++ engine before it hits your internal apps.
+* **🔄 On-The-Fly Rewriting:** The Java Native engine dynamically parses and manipulates JSON payloads and HTML anchors to fix broken backend paths seamlessly.
+* **⚡ Multi-Engine Routing:** Route your traffic through NATIVE (Tomcat), NGINX, or SPRING (Cloud Gateway) engines depending on the endpoint needs.
+* **📦 Zero-Config Database:** MySQL is fully containerized. The schema and default administrator are auto-provisioned on the first boot.
 
 ## 🏗️ Architecture Flow
 
 eWAF acts as an orchestrator, distributing the workload optimally:
 1. **API/HTML Traffic:** Handled by the Java Native Engine for deep content inspection and URL rewriting.
-   2. **Static Assets:** Handled by NGINX. Java replies with `X-Accel-Redirect` and delegates the download stream to the C++ engine.
-   3. **WAF Routes:** Traffic is shifted to a blind NGINX corridor (`/internal-nginx-proxy-modsec`), passing through the OWASP CRS before reaching the backend.
+2. **Static Assets:** Handled by NGINX. Java replies with `X-Accel-Redirect` and delegates the download stream to the C++ engine.
+3. **WAF Routes:** Traffic is shifted to a blind NGINX corridor (`/internal-nginx-proxy-modsec`), passing through the OWASP CRS before reaching the backend.
 
 ---
 
@@ -39,12 +39,23 @@ eWAF acts as an orchestrator, distributing the workload optimally:
 * Java 17 & Maven (To build the core application)
 
 ### Step 1: Build the Core
-Before spinning up the containers, package the Java application. This will generate the `target/eWAF.war` file required by Tomcat.
+Before spinning up the containers, package the Java application using the included Maven Wrapper. This will generate the `target/eWAF.war` file required by Tomcat.
 
+**For fresh Linux Servers (Ubuntu/Debian):**
 ```bash
-git clone [https://github.com/whitehatlabs000/eWAF.git](https://github.com/whitehatlabs000/eWAF.git)
+git clone https://github.com/whitehatlabs000/eWAF.git
 cd eWAF
-mvn clean install
+sudo apt update
+sudo apt install openjdk-17-jdk -y
+chmod +x mvnw
+./mvnw clean install
+```
+
+**For Local Development (Windows/Mac with Java installed):**
+```bash
+git clone https://github.com/whitehatlabs000/eWAF.git
+cd eWAF
+./mvnw clean install
 ```
 
 ### Step 2: Choose your Environment
@@ -70,7 +81,7 @@ docker compose --profile prod up -d --build
 Once deployed, navigate to `http://localhost:8081/login`. 
 The database is auto-provisioned with the following default credentials:
 * **Username:** `admin`
-  * **Password:** `admin`
+* **Password:** `admin`
 
 *(It is highly recommended to change this password or create a new administrator immediately after your first login).*
 
@@ -107,10 +118,10 @@ docker compose down -v
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. 
 
 1. Fork the Project
-   2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-   3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-   4. Push to the Branch (`git push origin feature/AmazingFeature`)
-   5. Open a Pull Request
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 📝 License
 

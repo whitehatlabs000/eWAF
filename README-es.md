@@ -39,11 +39,23 @@ eWAF actúa como un orquestador, distribuyendo la carga de trabajo de manera óp
 * Java 17 & Maven (Para compilar la aplicación principal)
 
 ### Paso 1: Compilar el Núcleo
-Antes de levantar los contenedores, empaqueta la aplicación Java. Esto generará el archivo `target/eWAF.war` requerido por Tomcat.
+Antes de levantar los contenedores, empaqueta la aplicación Java usando el Maven Wrapper incluido. Esto generará el archivo `target/eWAF.war` requerido por Tomcat.
+
+**Para Servidores Linux nuevos (Ubuntu/Debian):**
 ```bash
-git clone [https://github.com/whitehatlabs000/eWAF.git](https://github.com/whitehatlabs000/eWAF.git)
+git clone https://github.com/whitehatlabs000/eWAF.git
 cd eWAF
-mvn clean install
+sudo apt update
+sudo apt install openjdk-17-jdk -y
+chmod +x mvnw
+./mvnw clean install
+```
+
+**Para Desarrollo Local (Windows/Mac con Java instalado):**
+```bash
+git clone https://github.com/whitehatlabs000/eWAF.git
+cd eWAF
+./mvnw clean install
 ```
 
 ### Paso 2: Elige tu Entorno

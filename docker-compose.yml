@@ -92,9 +92,8 @@ services:
       # Útil para depuración local o métricas, desplazado del 8080 estándar para evitar conflictos con otros servidores Java en el Host.
       - "8083:8080"
     environment:
-      # Le pasamos el nombre del contenedor de BD para que Tomcat 10 lo lea y reemplace en context.xml
-      - DB_HOST=db
-      - DB_PORT=3306
+      # Inyectamos las variables directamente en la JVM para que context.xml las reconozca como propiedades de sistema
+      - JAVA_OPTS=-DDB_HOST=db -DDB_PORT=3306
     volumes:
       # Inyectamos la aplicacion compilada (.war) en la raiz de Tomcat
       # Reemplazar el .war por el nombre exacto que genere Maven
