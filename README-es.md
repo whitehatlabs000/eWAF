@@ -4,7 +4,7 @@
   <p><strong>Enrutamiento Híbrido Inteligente & Seguridad de Grado Empresarial</strong></p>
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Java: 24](https://img.shields.io/badge/Java-24-orange.svg)](https://www.oracle.com/java/)
+[![Java: 17](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
   [![Docker: Ready](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker&logoColor=white)](https://www.docker.com/)
   [![ModSecurity: v3](https://img.shields.io/badge/ModSecurity-v3-red.svg)](https://github.com/SpiderLabs/ModSecurity)
 </div>
@@ -36,7 +36,7 @@ eWAF actúa como un orquestador, distribuyendo la carga de trabajo de manera óp
 
 ### Prerrequisitos
 * [Docker & Docker Compose](https://docs.docker.com/get-docker/)
-* Java 24 & Maven (Para compilar la aplicación principal)
+* Java 17 & Maven (Para compilar la aplicación principal)
 
 ### Paso 1: Compilar el Núcleo
 Antes de levantar los contenedores, empaqueta la aplicación Java. Esto generará el archivo `target/eWAF.war` requerido por Tomcat.

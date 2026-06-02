@@ -80,7 +80,7 @@ services:
   # CAPA 2: Servidor Tomcat (SOLO PARA PRODUCCION EN LINUX)
   # =========================================================================
   tomcat:
-    image: tomcat:10.1-jdk24
+    image: tomcat:10.1-jdk17
     container_name: ewaf_core
     # PERFIL DE PRODUCCION: Este contenedor NO se encendera por defecto en Windows.
     # Solo se encendera cuando en Linux ejecutes explicitamente: docker compose --profile prod up -d
