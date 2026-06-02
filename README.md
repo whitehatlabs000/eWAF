@@ -3,7 +3,7 @@
   <h1>eWAF (Enterprise Web Application Firewall)</h1>
   <p><strong>Smart Hybrid Routing & Enterprise Grade Security</strong></p>
 
-  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
   [![Java: 17](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
   [![Docker: Ready](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker&logoColor=white)](https://www.docker.com/)
   [![ModSecurity: v3](https://img.shields.io/badge/ModSecurity-v3-red.svg)](https://github.com/SpiderLabs/ModSecurity)
@@ -114,4 +114,4 @@ Contributions are what make the open source community such an amazing place to l
 
 ## 📝 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the GNU AGPLv3 License. See `LICENSE` for more information.
