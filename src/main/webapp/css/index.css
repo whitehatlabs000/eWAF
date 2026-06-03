@@ -6,11 +6,15 @@
     --text-main: #e2e8f0;
 }
 
+html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
 body {
     background-color: var(--bg-main);
     color: var(--text-main);
     font-family: 'Inter', sans-serif;
-    overflow-x: hidden;
 }
 
 h1, h2, h3, h4 { font-family: 'Inter', sans-serif; }
@@ -86,6 +90,8 @@ h1, h2, h3, h4 { font-family: 'Inter', sans-serif; }
     color: #a0aec0;
     font-size: 0.9rem;
     line-height: 1.6;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
 /* Tarjetas de Features */
@@ -120,11 +126,12 @@ h1, h2, h3, h4 { font-family: 'Inter', sans-serif; }
 /* Bloques de Código */
 .code-block pre {
     background-color: #0d0d12;
-    padding: 20px;
+    padding: 45px 20px 20px 20px;
     border-radius: 8px;
     border: 1px solid #2d2d35;
     color: #e2e8f0;
     margin: 0;
+    overflow-x: auto;
 }
 .btn-copy {
     position: absolute;
@@ -191,7 +198,7 @@ h1, h2, h3, h4 { font-family: 'Inter', sans-serif; }
 .bg-darker { background-color: var(--bg-darker); }
 
 /* =========================================
-   SOPORTE PARA MODO CLARO (Light Theme)
+           SOPORTE PARA MODO CLARO
    ========================================= */
 [data-bs-theme="light"] {
     --bg-main: #f8fafc;
@@ -208,3 +215,15 @@ h1, h2, h3, h4 { font-family: 'Inter', sans-serif; }
 [data-bs-theme="light"] .nav-link { color: #475569 !important; }
 [data-bs-theme="light"] .btn-outline-light { color: #0f172a; border-color: #cbd5e1; }
 [data-bs-theme="light"] .btn-outline-light:hover { background-color: #f1f5f9; }
+
+/* =========================================
+   AJUSTES PARA PANTALLAS MUY ANGOSTAS
+   ========================================= */
+@media (max-width: 400px) {
+    .terminal-body {
+        font-size: 0.75rem;
+    }
+    .code-block pre {
+        font-size: 0.8rem;
+    }
+}
