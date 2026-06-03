@@ -21,6 +21,7 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.ewaf.WafLogger;
 
 @WebServlet("/admin-create_account")
 public class AdminCreateAccountServlet extends HttpServlet {
@@ -130,7 +131,7 @@ public class AdminCreateAccountServlet extends HttpServlet {
                 }
             }
 
-            // 5. Insertar Nuevo Admin (Tipo forzado a 'admin')
+            // 5. Insertar Nuevo Admin
             String hash = BCrypt.hashpw(newPass, BCrypt.gensalt());
             String insertSql = "INSERT INTO usuarios (username, password, tipo, active) VALUES (?, ?, 'admin', 1)";
 
@@ -140,20 +141,14 @@ public class AdminCreateAccountServlet extends HttpServlet {
                 insPs.executeUpdate();
             }
 
-            // 6. Insertar Log de Auditoría en access_logs
-            String logSql = "INSERT INTO access_logs (ip_address, username, event_type, details) VALUES (?, ?, ?, ?)";
-            try (PreparedStatement logPs = conn.prepareStatement(logSql)) {
-                String adminIp = IPUtils.getClientIp(req);
-
-                logPs.setString(1, adminIp);
-                logPs.setString(2, creatorAdmin); // Registramos QUÉ admin creó la cuenta
-                logPs.setString(3, "ACCOUNT_CREATED");
-                logPs.setString(4, "Created new admin user: " + newUser);
-                logPs.executeUpdate();
-            }
-
-            // 7. Commit
+            // 6. Commit de la creación del usuario
             conn.commit();
+
+            // 7. Insertar Log de Auditoría de forma asíncrona
+            String adminIp = IPUtils.getClientIp(req);
+            String path = req.getRequestURI();
+            String method = req.getMethod();
+            WafLogger.getInstance().logAsync(adminIp, creatorAdmin, "ACCOUNT_CREATED", path, method, "Created new admin user: " + newUser);
 
             session.setAttribute("ok", "Admin user '" + newUser + "' created successfully.");
             resp.sendRedirect("admin-create_account");
