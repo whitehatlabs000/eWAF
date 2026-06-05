@@ -1,0 +1,88 @@
+
+.main-container {
+    padding-top: 6rem;
+    padding-bottom: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Animación */
+.fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+.card {
+    border: none;
+    border-radius: var(--border-radius) !important;
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+}
+
+[data-bs-theme="dark"] .card {
+    border: 1px solid #333;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+}
+
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select {
+    background-color: #2c2c2c;
+    border-color: #444;
+    color: #e0e0e0;
+}
+[data-bs-theme="dark"] .form-control:focus,
+[data-bs-theme="dark"] .form-select:focus {
+    background-color: #333;
+    border-color: #0d6efd;
+    color: #fff;
+}
+
+
+.table-responsive {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    overflow-x: auto;
+}
+
+.table th {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    background-color: #f8f9fa !important;
+}
+
+/* Anchos fijos para columnas críticas */
+.table th:nth-child(1), .table td:nth-child(1) { width: 160px; min-width: 160px; } /* Date */
+.table th:nth-child(2), .table td:nth-child(2) { width: 140px; min-width: 140px; } /* IP */
+.table th:nth-child(3), .table td:nth-child(3) { width: 150px; min-width: 150px; } /* User */
+.table th:nth-child(4), .table td:nth-child(4) { width: 140px; min-width: 140px; } /* Event */
+/* Details toma el resto */
+
+.table td {
+    vertical-align: middle;
+}
+
+[data-bs-theme="dark"] .table { color: #e0e0e0; }
+[data-bs-theme="dark"] .table th {
+    background-color: #1e1e1e !important;
+    color: #adb5bd;
+    border-bottom-color: #444;
+}
+[data-bs-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+#loadingIndicator {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    display: none; justify-content: center; align-items: center; z-index: 10;
+    backdrop-filter: blur(2px);
+    border-radius: var(--border-radius);
+}
+[data-bs-theme="dark"] #loadingIndicator { background: rgba(0, 0, 0, 0.7); }
