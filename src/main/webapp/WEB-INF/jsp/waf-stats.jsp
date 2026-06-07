@@ -266,6 +266,8 @@
     banModal.show();
   }
 </script>
+
+<script src="${pageContext.request.contextPath}/scripts/csrf-refresher.js" defer></script>
 <script src="${pageContext.request.contextPath}/scripts/admin-stats.js" defer></script>
 
 </body>
