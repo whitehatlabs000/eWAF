@@ -35,7 +35,7 @@
     <div class="row g-4 mb-5 fade-in-up" style="animation-delay: 0.1s;">
 
         <div class="col-md-6">
-            <a href="${pageContext.request.contextPath}/admin-stats" class="card dashboard-card card-analytics h-100">
+            <a href="${pageContext.request.contextPath}/admin-waf-stats" class="card dashboard-card card-analytics h-100">
                 <div class="card-body text-center p-4">
                     <i class="bi bi-speedometer2 card-icon text-info"></i>
                     <h5 class="card-title">System Statistics</h5>

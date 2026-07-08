@@ -175,9 +175,18 @@
                   <span class="badge bg-danger rounded-pill badge-threat">${attacker.block_count}</span>
                 </td>
                 <td class="text-end">
-                  <button type="button" class="btn btn-sm text-danger bg-danger bg-opacity-10 border-0 fw-bold px-2 py-1" onclick="showBanModal('${attacker.ip_address}')" title="Ban IP">
-                    <i class="fa-solid fa-gavel"></i>
-                  </button>
+                  <c:choose>
+                    <c:when test="${attacker.is_banned}">
+                      <span class="badge bg-secondary bg-opacity-25 text-secondary px-2 py-1 border border-secondary border-opacity-25" title="Already Banned">
+                        <i class="fa-solid fa-ban me-1"></i>Banned
+                      </span>
+                    </c:when>
+                    <c:otherwise>
+                      <button type="button" class="btn btn-sm text-danger bg-danger bg-opacity-10 border-0 fw-bold px-2 py-1" onclick="showBanModal('${attacker.ip_address}')" title="Ban IP">
+                        <i class="fa-solid fa-gavel"></i>
+                      </button>
+                    </c:otherwise>
+                  </c:choose>
                 </td>
               </tr>
             </c:forEach>
@@ -262,10 +271,28 @@
   function showBanModal(ipAddress) {
     document.getElementById('modalIpDisplay').textContent = ipAddress;
     document.getElementById('modalIpInput').value = ipAddress;
-    const banModal = new bootstrap.Modal(document.getElementById('banModal'));
+    // 1: getOrCreateInstance evita crear modales duplicados "fantasma" en el DOM
+    const banModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('banModal'));
     banModal.show();
   }
+
+  // 2: Interceptar bfcache
+  window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+      const modalEl = document.getElementById('banModal');
+      if (modalEl) {
+        const banModal = bootstrap.Modal.getInstance(modalEl);
+        if (banModal) {
+          banModal.hide(); // Cerramos el modal atascado en memoria
+        }
+      }
+      // Forzamos recarga: Renueva el token CSRF
+      window.location.reload();
+    }
+  });
 </script>
+
+<script src="${pageContext.request.contextPath}/scripts/csrf-refresher.js" defer></script>
 <script src="${pageContext.request.contextPath}/scripts/admin-stats.js" defer></script>
 
 </body>

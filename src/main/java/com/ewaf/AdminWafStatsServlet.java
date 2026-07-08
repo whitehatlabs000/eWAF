@@ -123,6 +123,14 @@ public class AdminWafStatsServlet extends HttpServlet {
                             "GROUP BY ip_address ORDER BY block_count DESC LIMIT 10";
             data.topAttackers = executeQuery(conn, sqlTopAttackers, Arrays.asList(sqlStart, sqlEnd));
 
+            // CRUCE DE DATOS EN RAM: Verificamos qué IPs ya están baneadas actualmente
+            Set<String> currentlyBlockedIPs = IPBlockManager.getBlockedIPs();
+            for (Map<String, Object> attacker : data.topAttackers) {
+                String ip = (String) attacker.get("ip_address");
+                // Inyectamos un nuevo valor booleano 'is_banned' al mapa de cada atacante
+                attacker.put("is_banned", currentlyBlockedIPs.contains(ip));
+            }
+
             // Top 10 Rutas Más Atacadas
             String sqlTopTargets =
                     "SELECT target_path, COUNT(*) as block_count FROM access_logs " +
