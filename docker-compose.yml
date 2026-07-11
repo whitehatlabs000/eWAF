@@ -98,6 +98,8 @@ services:
       # Inyectamos la aplicacion compilada (.war) en la raiz de Tomcat
       # Reemplazar el .war por el nombre exacto que genere Maven
       - ./target/eWAF.war:/usr/local/tomcat/webapps/ROOT.war
+       # Mapeo de Datos (IPs bloqueadas, etc): carpeta física del servidor -> carpeta interna del contenedor
+      - ./data:/var/eWAF/data
     networks:
       ewaf_network:
         # Le ponemos el alias "host.docker.internal" a este contenedor.

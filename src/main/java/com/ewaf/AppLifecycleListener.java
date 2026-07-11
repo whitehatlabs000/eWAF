@@ -190,4 +190,5 @@ public class AppLifecycleListener implements ServletContextListener {
         }
         log.info("eWAF Context destroyed. Application stopped.");
     }
+
 }
