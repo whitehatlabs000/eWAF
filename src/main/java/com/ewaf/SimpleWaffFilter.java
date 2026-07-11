@@ -44,6 +44,9 @@ public class SimpleWaffFilter implements Filter {
     // Rutas exclusivas para Administradores (config.properties)
     private Set<String> adminPaths = new HashSet<>();
 
+    // Rutas Honeypot (Cargadas a RAM en el Listener)
+    private Set<String> honeypotPaths = new HashSet<>();
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         ServletContext context = filterConfig.getServletContext();
@@ -88,6 +91,13 @@ public class SimpleWaffFilter implements Filter {
         String adminPathsStr = (String) context.getAttribute("security.admin.paths");
         if (adminPathsStr != null && !adminPathsStr.isEmpty()) {
             this.adminPaths = parsePaths(adminPathsStr);
+        }
+
+        // D. Cargar Honeypot Paths desde la memoria (ya pre-procesado en el Listener)
+        @SuppressWarnings("unchecked")
+        Set<String> loadedHoneypots = (Set<String>) context.getAttribute("honeypotPathsSet");
+        if (loadedHoneypots != null) {
+            this.honeypotPaths = loadedHoneypots;
         }
 
         // --- 2. Reglas SQL Injection ---
@@ -151,6 +161,26 @@ public class SimpleWaffFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String uri = httpRequest.getRequestURI();
+
+        // --- 0. DEFENSA HONEYPOT (AUTO-BAN) ---
+        // Verifica si la URI (en minúsculas) coincide exactamente con alguna ruta de la trampa.
+        // Al ser un HashSet, la búsqueda toma O(1) milisegundos.
+        if (honeypotPaths.contains(uri.toLowerCase())) {
+            String attackerIp = IPUtils.getClientIp(httpRequest);
+
+            // Logueamos la advertencia crítica
+            log.error("eWAF HONEYPOT TRIPPED: IP '{}' attempted to access forbidden scanner path '{}'. Immediate Ban.", attackerIp, uri);
+
+            // Registramos asíncronamente en la BD de auditoría
+            WafLogger.getInstance().logAsync(attackerIp, null, "BLACKLISTED", uri, httpRequest.getMethod(), "Honeypot path accessed. IP Auto-banned.");
+
+            // Aplicamos el baneo real a nivel de memoria RAM (IPBlockManager)
+            IPBlockManager.addIP(attackerIp);
+
+            // Respondemos con error y cortamos el flujo
+            httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied: Security Policy Violation");
+            return;
+        }
 
         // --- 1. SEGURIDAD DE ADMINISTRADOR ---
         if (isAdminPath(uri)) {

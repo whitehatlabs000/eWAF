@@ -38,6 +38,8 @@ public class AppLifecycleListener implements ServletContextListener {
             // 2. Leer propiedades del archivo
             String baseUrl = props.getProperty("app.baseUrl", "");
             String blockedIpsPath = props.getProperty("path.blocked-ips");
+            // Usamos la misma ruta base para el archivo del honeypot
+            String honeypotPathsStr = props.getProperty("path.honeypot-paths");
 
             // --- Rate Limiting ---
             String rateLimitCountStr = props.getProperty("limits.rate.requestLimit");
@@ -92,6 +94,38 @@ public class AppLifecycleListener implements ServletContextListener {
             // 5. Inicializar Servicios Estáticos
             IPBlockManager.init(blockedIpsPath);
             IPUtils.init(trustedProxiesStr);
+
+            // --- Cargar lista Honeypot en RAM (O(1) lookup) ---
+            java.util.Set<String> honeypotSet = new java.util.HashSet<>();
+            if (honeypotPathsStr != null && !honeypotPathsStr.isEmpty()) {
+                try {
+                    String finalHoneypotPath = honeypotPathsStr;
+                    String realPath = context.getRealPath(honeypotPathsStr);
+
+                    // Lógica inteligente: Si Tomcat encuentra el archivo dentro de su estructura web, usamos esa ruta.
+                    // Si no, conserva la ruta original asumiendo que es una ruta absoluta del Sistema Operativo (C:/... o /var/...)
+                    if (realPath != null && java.nio.file.Files.exists(java.nio.file.Paths.get(realPath))) {
+                        finalHoneypotPath = realPath;
+                    }
+
+                    java.nio.file.Path honeypotFile = java.nio.file.Paths.get(finalHoneypotPath);
+                    if (java.nio.file.Files.exists(honeypotFile)) {
+                        java.util.List<String> lines = java.nio.file.Files.readAllLines(honeypotFile, java.nio.charset.StandardCharsets.UTF_8);
+                        for (String line : lines) {
+                            String trimmed = line.trim();
+                            if (!trimmed.isEmpty() && !trimmed.startsWith("#")) {
+                                honeypotSet.add(trimmed.toLowerCase());
+                            }
+                        }
+                        log.info("Loaded {} Honeypot paths into memory from: {}", honeypotSet.size(), finalHoneypotPath);
+                    } else {
+                        log.warn("Honeypot file not found at resolved path: {}", finalHoneypotPath);
+                    }
+                } catch (Exception e) {
+                    log.error("Error reading honeypot file. Proceeding with empty set.", e);
+                }
+            }
+            context.setAttribute("honeypotPathsSet", honeypotSet);
 
             log.info("eWAF Static services (IPBlockManager, IPUtils) initialized successfully.");
 
