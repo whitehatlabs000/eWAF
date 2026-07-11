@@ -20,7 +20,8 @@ services:
       # Formato: "Puerto_Host:Puerto_Contenedor"
       # Exponemos el motor al puerto 3308 del Host para administración externa (ej. DBeaver/DataGrip).
       # Se utiliza un puerto alternativo para garantizar el aislamiento y evitar colisiones con otras instancias MySQL locales.
-      - "3308:3306"
+      # Solo vincula al 127.0.0.1 (localhost)
+      - "127.0.0.1:3308:3306"
     environment:
       # Credenciales DB
       MYSQL_ROOT_PASSWORD: ewaf_password
