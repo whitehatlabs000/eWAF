@@ -5,7 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>eWAF - Enterprise Web Application Firewall & Smart Proxy</title>
-    <meta name="description" content="eWAF is a high-performance Hybrid Reverse Proxy and WAF. Combines Java routing intelligence with NGINX and ModSecurity C++ muscle.">
+
+    <meta name="description" content="eWAF is a high-performance Hybrid Reverse Proxy and WAF. It combines Java routing intelligence with the raw C++ muscle of NGINX and ModSecurity.">
+    <meta name="author" content="Ezequiel Mesa">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ewaf.io/">
+    <meta property="og:title" content="eWAF - Enterprise Web Application Firewall & Smart Proxy">
+    <meta property="og:description" content="High-performance Hybrid Reverse Proxy and WAF. Defend your infrastructure against SQL Injection, XSS, and zero-day exploits using Java and NGINX.">
+
+    <link rel="canonical" href="https://ewaf.io/">
+
 
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/bootstrap-icons.css" rel="stylesheet">
