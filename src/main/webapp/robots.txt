@@ -1,0 +1,14 @@
+User-agent: *
+Disallow: /
+
+Allow: /$
+Allow: /css/
+Allow: /js/
+Allow: /scripts/
+Allow: /images/
+Allow: /webfonts/
+Allow: /favicon.ico
+Allow: /sitemap.xml
+Allow: /robots.txt
+
+Sitemap: https://ewaf.io/sitemap.xml

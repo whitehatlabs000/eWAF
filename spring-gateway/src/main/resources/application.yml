@@ -1,0 +1,10 @@
+server:
+  port: 8082
+spring:
+  main:
+    # Esto le dice a Spring que no use un Tomcat interno, sino el motor Netty (Reactivo)
+    web-application-type: reactive
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+    com.ewaf.spring: DEBUG

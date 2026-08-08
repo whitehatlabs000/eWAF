@@ -1,0 +1,185 @@
+:root {
+    --navbar-height: 64px;
+    --primary-color: #0d6efd;
+    /* Colores semi-transparentes para el efecto Glassmorphism */
+    --navbar-bg-dark: rgba(21, 27, 35, 0.75);
+    --navbar-bg-light: rgba(255, 255, 255, 0.85);
+}
+
+/* 1. Estructura General */
+.navbar.sticky-top {
+    min-height: var(--navbar-height);
+    z-index: 1030;
+    /* Efecto Glassmorphism Premium */
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%); /* Soporte para Safari */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: background-color 0.3s ease;
+}
+
+.tracking-tight { letter-spacing: -0.5px; }
+
+/* =========================================
+   2. MODO OSCURO (DARK MODE)
+   ========================================= */
+
+/* Navbar Fondo */
+[data-bs-theme="dark"] .navbar {
+    background-color: var(--navbar-bg-dark) !important;
+}
+
+/* --- Hover en Desktop Dark --- */
+[data-bs-theme="dark"] .navbar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo gris translúcido */
+    color: #ffffff !important; /* Texto blanco brillante */
+    border-radius: 6px; /* Bordes redondeados */
+}
+
+/* Dropdown Menu Fondo */
+[data-bs-theme="dark"] .dropdown-menu {
+    background-color: #1c2128;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Cabecera del Dropdown (Signed in as...) */
+[data-bs-theme="dark"] .dropdown-user-header {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #e6edf3;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Items del Dropdown */
+[data-bs-theme="dark"] .dropdown-item {
+    color: #c9d1d9;
+}
+[data-bs-theme="dark"] .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* Offcanvas (Móvil) Fondo */
+[data-bs-theme="dark"] .offcanvas {
+    background-color: rgba(13, 17, 23, 0.85);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    color: #e6edf3;
+}
+[data-bs-theme="dark"] .offcanvas-header,
+[data-bs-theme="dark"] .offcanvas-footer {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Botones del Menú Móvil */
+[data-bs-theme="dark"] .mobile-nav-btn {
+    background-color: transparent;
+    color: #e6edf3;
+}
+[data-bs-theme="dark"] .mobile-nav-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* =========================================
+   3. MODO CLARO (LIGHT MODE)
+   ========================================= */
+
+/* Navbar Fondo */
+[data-bs-theme="light"] .navbar {
+    background-color: var(--navbar-bg-light) !important;
+    border-bottom: 1px solid rgba(225, 228, 232, 0.6); /* Borde sutil y translúcido */
+}
+
+/* Textos Navbar */
+[data-bs-theme="light"] .navbar .navbar-brand,
+[data-bs-theme="light"] .navbar .nav-link,
+[data-bs-theme="light"] .navbar .bi-moon-stars-fill,
+[data-bs-theme="light"] .navbar .bi-sun-fill,
+[data-bs-theme="light"] .navbar .dropdown-toggle {
+    color: #24292f !important;
+}
+
+/* Hover Links */
+[data-bs-theme="light"] .navbar .nav-link:hover {
+    color: var(--primary-color) !important;
+    background-color: rgba(13, 110, 253, 0.08); /* Recuadro azul muy suave */
+}
+
+/* Hamburguesa Invertida */
+[data-bs-theme="light"] .navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* Dropdown Menu Fondo */
+[data-bs-theme="light"] .dropdown-menu {
+    background-color: #ffffff;
+    border: 1px solid #e1e4e8;
+    box-shadow: 0 8px 24px rgba(149, 157, 165, 0.2);
+}
+
+/* Cabecera del Dropdown (Signed in as...) */
+[data-bs-theme="light"] .dropdown-user-header {
+    background-color: #f6f8fa;
+    color: #24292f;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+/* Items del Dropdown */
+[data-bs-theme="light"] .dropdown-item {
+    color: #24292f;
+}
+[data-bs-theme="light"] .dropdown-item:hover {
+    background-color: #f3f4f6;
+    color: #0969da;
+}
+
+/* Offcanvas (Móvil) Fondo */
+[data-bs-theme="light"] .offcanvas {
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    color: #24292f;
+}
+
+/* Botones del Menú Móvil */
+[data-bs-theme="light"] .mobile-nav-btn {
+    background-color: transparent;
+    color: #24292f;
+}
+[data-bs-theme="light"] .mobile-nav-btn:hover {
+    background-color: #f3f4f6;
+    color: var(--primary-color);
+}
+
+/* =========================================
+   4. ELEMENTOS COMUNES
+   ========================================= */
+
+.nav-link {
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    border-radius: 6px; /* para que el recuadro no sea cuadrado */
+}
+
+/* Estilos para el Avatar */
+.rounded-circle {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+[data-bs-theme="light"] .rounded-circle {
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Switch */
+.form-check-input {
+    cursor: pointer;
+    width: 2.5em;
+    height: 1.25em;
+}
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.dropdown-menu {
+    padding-top: 0;
+    padding-bottom: 0.5rem;
+}
