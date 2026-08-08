@@ -128,7 +128,7 @@ Contributions are what make the open source community such an amazing place to l
 
 Distributed under the GNU AGPLv3 License. See `LICENSE` for more information.
 
-##Contact and donations
+## Contact and donations
 
 Mail: ezequielmesa@proton.me
 BTC: 1LUw27B6wPNibZKrPJGCigV642358rpABg
